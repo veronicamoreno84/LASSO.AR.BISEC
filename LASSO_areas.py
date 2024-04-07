@@ -2,7 +2,7 @@
 from sklearn.linear_model import Lasso
 from sklearn.preprocessing import RobustScaler
 import numpy as np
-from scenarios import scenario_1,scenario_2,scenario_3
+from scenarios import scenario_1,scenario_2,scenario_3,scenario_2_dif,scenario_combinado_1_2
 import matplotlib.pyplot as plt
 
 def area_tray_coef_lasso(X,y,fit_intercept=False,selection='cyclic'):
@@ -26,8 +26,8 @@ def area_tray_coef_lasso(X,y,fit_intercept=False,selection='cyclic'):
         clf = Lasso(alpha=lambda_, fit_intercept=fit_intercept, selection=selection)
         clf.fit(X, y)
         coeficientes = clf.coef_
-        for i in range(p):
-            areas[i] += abs(coeficientes[i])*(lambda_-lambdas[i])
+        for j in range(p):
+            areas[j] += abs(coeficientes[j])*(lambda_-lambdas[i])
     norm = [area / sum(areas) for area in areas]
     return norm
 
@@ -51,6 +51,10 @@ def grafico_areas_ordenadas(scenario,n,p,s,rho=None, showfig = False, savefig = 
             X, y = scenario_1(n, p, s, sigma2=0.9)
         if scenario == '2':
             X, y = scenario_2(n, p, s, rho, sigma2=0.9, cant_clusters=10)
+        if scenario == '2dif':
+            X, y = scenario_2_dif(n, p, s, rho, sigma2=0.9, cant_clusters=10)
+        if scenario == '1_2':
+            X,y = scenario_combinado_1_2(n, p, p, s, s, rho, cant_clusters=10, sigma2=0.9)
         if scenario == '3':
             X, y = scenario_3(n, p, s, rho, sigma2=0.9)
 

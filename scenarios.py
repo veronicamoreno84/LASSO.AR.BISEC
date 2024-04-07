@@ -69,17 +69,28 @@ def scenario_3(n,p,s,rho,sigma2):
 
  return X,y
 
-# def scenario_combinado_1_2(n,p2,p3,s2,s3,cant_clusters = 10, sigma2=0.9):
-#  mean = np.zeros(p)
-#  M = cant_clusters
-#  cov = np.eye(p)
-#  for i in range(p):
-#   for j in range(p):
-#    if i != j and i % M == j % M:
-#     cov[i, j] = rho
-#  X = np.random.multivariate_normal(mean, cov, n)
-#  error = np.random.normal(0, sigma2, n)
-#  y = [sum([X[i][j] for j in range(s)]) for i in range(n)] + error
+def scenario_combinado_1_2(n,p1,p2,s1,s2,rho,cant_clusters = 10, sigma2=0.9):
+  mean = p1 * [0]
+  cov = np.eye(p1)
+  X1 = np.random.multivariate_normal(mean, cov, n)
+  mean = np.zeros(p2)
+  M = cant_clusters
+  cov = np.eye(p2)
+  for i in range(p2):
+   for j in range(p2):
+    if i != j and i % M == j % M:
+     cov[i, j] = rho
+  X2 = np.random.multivariate_normal(mean, cov, n)
+
+  print(X1.shape)
+  print(X2.shape)
+  X = np.concatenate((X1, X2), axis=1)
+  print(X.shape)
+  error = np.random.normal(0, sigma2, n)
+  y = [sum([X1[i][j]+(1.5)*X2[i][l] for j in range(s1) for l in range(s2) ]) for i in range(n)] + error
+
+  return X,y
+
 
 
 

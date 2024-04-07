@@ -5,7 +5,7 @@ from sklearn.linear_model import Lasso
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import RobustScaler
-from scenarios import scenario_1,scenario_2,scenario_3
+from scenarios import scenario_1,scenario_2,scenario_3,scenario_2_dif
 from sklearn.model_selection import KFold
 import matplotlib.pyplot as plt
 
@@ -114,6 +114,8 @@ def monte_carlo_bisec_vs_lassomin(scenario,coef, n,p,s,rho=None, cant_clusters =
             X, y = scenario_1(n, p, s, sigma2=0.9)
         if scenario == '2':
             X, y = scenario_2(n, p, s, rho, sigma2=0.9, cant_clusters=10)
+        if scenario == '2dif':
+            X, y = scenario_2_dif(n, p, s, rho, sigma2=0.9, cant_clusters=10)
         if scenario == '3':
             X, y = scenario_3(n, p, s, rho, sigma2=0.9)
 
@@ -283,7 +285,7 @@ save_in = r'C:\Vero\ML\codigos_Python\Figuras_paper\LASSOARBISmseLASSOMIN\SCENAR
 coef=None
 for eps in eps_list:
     for rho in rho_list:
-        grafico_montecarlo_bisec_vs_lassomin(scenario,coef, n_list, p, s,mse = 'LASSO.MIN', rho=rho,cant_clusters= cant_clusters, cant_sim = cant_sim, eps = eps, showfig = False, savefig = True, save_in = save_in)
+        grafico_montecarlo_bisec_vs_lassomin(scenario,coef, n_list, p, s,mse = 'LASSO.MIN', rho=rho,cant_clusters= cant_clusters, cant_sim = cant_sim, eps = eps, showfig = True, savefig = False, save_in = save_in)
 
 
 # X, y = scenario_1(n, p, s, sigma2)
